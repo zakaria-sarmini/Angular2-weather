@@ -1,0 +1,203 @@
+<!--List-->
+<div id="mySidenav" class="sidenav" [style.width]="listIsOpened ? '250px':'0'">
+    <div [ngSwitch]="(cities | async)">
+        <div *ngSwitchCase="undefined">
+            <div class='uil-ring-css' style='transform:scale(0.6); margin-left: 10% !important;'>
+                <div></div>
+            </div>
+        </div>
+        <div *ngSwitchDefault>
+            <a *ngIf="(cities | async)?.length === 0">List is empty</a>
+            <a style="cursor: pointer" *ngFor="let city of (cities | async)" (click)="getWeather(city.$value)">{{city.$value}}
+                <a class="close" (click)="remove($event, city.$key)" aria-label="close"> &times;</a>
+            </a>
+        </div>
+    </div>
+</div>
+<!---->
+<!--Modal-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+     aria-hidden="true">npm install
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <br>
+            <div class="modal-body">
+                <form #signInForm="ngForm" class="form-horizontal">
+                    <div class="col-lg-10" *ngIf="error" class="alert alert-danger">
+                        <a class="close" (click)="emptyMsg()" aria-label="close">&times;</a>
+                        <p>{{error}}</p>
+                    </div>
+                    <div class="col-lg-10" *ngIf="success" class="alert alert-success">
+                        <a class="close" (click)="emptyMsg()" aria-label="close">&times;</a>
+                        <p>{{success}}</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputEmail" class="col-lg-2 control-label">Email</label>
+                        <div class="col-lg-10">
+                            <input type="email" name="email" ngModel class="form-control" id="inputEmail"
+                                   placeholder="Email"
+                                   #email="ngModel" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+                        <div class="col-lg-10">
+                            <input type="password" name="password" ngModel class="form-control" id="inputPassword"
+                                   placeholder="Password" #password="ngModel" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-10 col-lg-offset-2">
+                            <button type="reset" class="btn btn-info" [disabled]="!signInForm.valid"
+                                    (click)="signIn(email.value, password.value)">Sign in
+                            </button>
+                            <button class="btn btn-success" [disabled]="!signInForm.valid"
+                                    (click)="signUp(email.value, password.value)">Sign up
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a data-dismiss="modal" class="btn btn-default" #modalDismiss>Skip</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!---->
+<div id="main" [style.margin-left]="listIsOpened ? '250px':'0'">
+    <div class="image-preload">
+        <img src="img/drop-color.png" alt="">
+        <img src="img/drop-alpha.png" alt="">
+        <img src="img/weather/texture-rain-fg.png"/>
+        <img src="img/weather/texture-rain-bg.png"/>
+        <img src="img/weather/texture-sun-fg.png"/>
+        <img src="img/weather/texture-sun-bg.png"/>
+        <img src="img/weather/texture-fallout-fg.png"/>
+        <img src="img/weather/texture-fallout-bg.png"/>
+        <img src="img/weather/texture-drizzle-fg.png"/>
+        <img src="img/weather/texture-drizzle-bg.png"/>
+    </div>
+    <div class="containerx">
+        <div class="slideshow">
+            <canvas width="1" height="1" id="container" style="position:absolute"></canvas>
+            <header class="codrops-header">
+                <!--<a style="cursor: pointer" (click)="goBack()" class="codrops-icon codrops-icon&#45;&#45;prev" title="Previous Demo">
+                  <span>Previous Demo</span>
+                </a>-->
+                <h1 style="color:#fff">We Weather</h1>
+                <!--<h1 *ngIf="welcomeMsg" style="padding-left: 7%">
+                    {{welcomeMsg}} <p style="padding-left: 7px" class="close" (click)="emptyMsg()"> &times;</p>
+                </h1>-->
+                <nav class="codrops-demos">
+                    <a routerLinkActive="current-demo" routerLink="/search">Search Weather</a>
+                    <a [ngSwitch]="signedIn">
+                        <a *ngSwitchCase="true" style="cursor: pointer" (click)="logout()">Logout</a>
+                        <a *ngSwitchDefault href="#signup" data-toggle="modal" data-target="#myModal" #forceSignIn>Sign
+                            In</a>
+                    </a>
+                    <a style="cursor: pointer" (clickOutside)="closeList()" (click)="openList()">List</a>
+                    <button data-toggle="tooltip" data-placement="left" data-original-title="add this city to list"
+                            title=""
+                            (click)="addToList()" class="btn btn-primary btn-sm" type="button"
+                            *ngIf="signedIn">
+                        <span class="text-success glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                    </button>
+                </nav>
+            </header>
+
+            <div [ngSwitch]="status">
+                <div *ngSwitchCase="'loading'" class="col-md-8 col-md-offset-2 text-center">
+                    <div class='uil-ring-css' style='transform:scale(0.6);'>
+                        <div></div>
+                    </div>
+                </div>
+                <div *ngSwitchDefault="">
+                    <!-- Sunny -->
+                    <div class="slide" id="slide-3" data-weather="sunny">
+                        <div class="slide__element slide__element--temp">{{weather.name}}
+                        </div>
+                        <div class="slide__element slide__element--date">{{date | date: 'EEEE'}}, {{date | date:
+                            'd'}}<sup>th</sup> of
+                            {{date | date: 'MMMM'}} {{date | date: 'y'}}
+                        </div>
+                        <div class="slide__element slide__element--date">{{weather.weather[0].description}}
+                        </div>
+                        <div class="slide__element slide__element--temp">{{weather.main.temp}}°
+                            <small>C</small>
+                        </div>
+                    </div>
+                    <!--Heavy Rain-->
+                    <div class="slide" id="slide-1" data-weather="rain">
+                        <div class="slide__element slide__element--temp">{{weather.name}}
+                        </div>
+                        <div class="slide__element slide__element--date">{{date | date: 'EEEE'}}, {{date | date:
+                            'd'}}<sup>th</sup> of
+                            {{date | date: 'MMMM'}} {{date | date: 'y'}}
+                        </div>
+                        <div class="slide__element slide__element--date">{{weather.weather[0].description}}
+                        </div>
+                        <div class="slide__element slide__element--temp">{{weather.main.temp}}°
+                            <small>C</small>
+                        </div>
+                    </div>
+                    <!-- Drizzle -->
+                    <div class="slide" id="slide-2" data-weather="drizzle">
+                        <div class="slide__element slide__element--temp">{{weather.name}}
+                        </div>
+                        <div class="slide__element slide__element--date">{{date | date: 'EEEE'}}, {{date | date:
+                            'd'}}<sup>th</sup> of
+                            {{date | date: 'MMMM'}} {{date | date: 'y'}}
+                        </div>
+                        <div class="slide__element slide__element--date">{{weather.weather[0].description}}
+                        </div>
+                        <div class="slide__element slide__element--temp">{{weather.main.temp}}°
+                            <small>C</small>
+                        </div>
+                    </div>
+                    <!-- Heavy rain -->
+                    <div class="slide" id="slide-5" data-weather="storm">
+                        <div class="slide__element slide__element--temp">{{weather.name}}
+                        </div>
+                        <div class="slide__element slide__element--date">{{date | date: 'EEEE'}}, {{date | date:
+                            'd'}}<sup>th</sup> of
+                            {{date | date: 'MMMM'}} {{date | date: 'y'}}
+                        </div>
+                        <div class="slide__element slide__element--date">{{weather.weather[0].description}}
+                        </div>
+                        <div class="slide__element slide__element--temp">{{weather.main.temp}}°
+                            <small>C</small>
+                        </div>
+                    </div>
+                    <!-- Fallout (greenish overlay with slightly greenish/yellowish drops) -->
+                    <div class="slide" id="slide-4" data-weather="fallout">
+                        <div class="slide__element slide__element--temp">{{weather.name}}
+                        </div>
+                        <div class="slide__el!-ent slide__element--date">{{date | date: 'EEEE'}}, {{date | date:
+                            'd'}}<sup>th</sup> of
+                            {{date | date: 'MMMM'}} {{date | date: 'y'}}
+                        </div>
+                        <div class="slide__element slide__element--date">{{weather.weather[0].description}}
+                        </div>
+                        <div class="slide__element slide__element--temp">{{weather.main.temp}}°
+                            <small>C</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <router-outlet></router-outlet>
+            <nav class="slideshow__nav" style="display: none">
+                <a class="nav-item" href="#slide-1" #rain><i class="icon icon--rainy"></i><span>10/24</span></a>
+                <a class="nav-item" href="#slide-2" #drizzle><i class="icon icon--drizzle"></i><span>10/25</span></a>
+                <a class="nav-item" href="#slide-3" #sunny><i class="icon icon--sun"></i><span>10/26</span></a>
+                <a class="nav-item" href="#slide-5" #thunderStorm><i class="icon icon--storm"></i><span>10/28</span></a>
+                <a class="nav-item" href="#slide-4" #dustRain><i
+                        class="icon icon--radioactive"></i><span>10/27</span></a>
+            </nav>
+        </div>
+        <p class="nosupport">Sorry, but your browser does not support WebGL!</p>
+    </div>
+    <div id="snackbar" [class.show]="snackBar">{{city}} is added to your list</div>
+</div>
+

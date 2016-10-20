@@ -1,0 +1,12 @@
+.shift {
+  animation-name: shift;
+  animation-duration: 0.2s;
+}
+
+@keyframes shift {
+  0%   {transform: translateY(-100%); opacity: 0}
+  25%  {transform: translateY(-75%);opacity: 0.25}
+  50%  {transform: translateY(-50%);opacity: 0.5}
+  75%  {transform: translateY(-25%);opacity: 0.75}
+  100% {transform: translateY(0);opacity: 1}
+}
