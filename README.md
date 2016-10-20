@@ -1,9 +1,29 @@
 # WeatherApp
 
+A Beautiful Angular 2 weather application using open weather api supporting the ability to sign up and add list of cities.<br>
+based on <a href="http://tympanus.net/codrops/2015/11/04/rain-water-effect-experiments/">Rain & Water Effect Experiments by Lucas Bebber</a>
+
 This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.17.
 
-## Development server
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+# install
+make sure you have NodeJs and angular-cli installed then cd to ng2-authentication folder and run
+```bash
+npm install 
+```
+to run the app 
+```bash
+ng serve 
+```
+then with your browser, navigate to localhost:4200 
+
+# Live Demo
+
+https://weweather-fa9e7.firebaseapp.com<br>
+in order to make this demo work, you should load unsafe script, because open weather api doesn't<br>
+support HTTPS calls in free accounts and firebase will block HTTP API calls.
+<img src="https://www.aamc.org/linkableblob/444400-1/data/chrometrouble-data.jpg"></img>
+<img src="https://askdrexel.drexel.edu/ci/fattach/get/119540/0/filename/Enable1.png"></img>
+
 
 ## Code scaffolding
 
