@@ -21,7 +21,7 @@ then with your browser, navigate to localhost:4200
 https://weweather-fa9e7.firebaseapp.com
 
 in order to make this demo work, you should load unsafe script, because open weather api doesn't<br>
-support HTTPS calls in free accounts and firebase will block HTTP API calls.
+support HTTPS calls in free accounts and firebase will block HTTP API calls <strong>then reload the page</strong>.
 
 <img src="https://www.aamc.org/linkableblob/444400-1/data/chrometrouble-data.jpg"></img>
 <img src="https://askdrexel.drexel.edu/ci/fattach/get/119540/0/filename/Enable1.jpg"></img>
