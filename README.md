@@ -8,7 +8,7 @@ This project was generated with [angular-cli](https://github.com/angular/angular
 # install
 make sure you have NodeJs and angular-cli installed then cd to ng2-authentication folder and run
 ```bash
-npm install 
+npm install --save
 ```
 to run the app 
 ```bash
