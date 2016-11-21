@@ -14,11 +14,11 @@ import {Ng2Webstorage} from "ng2-webstorage";
 import {ClickOutsideDirective} from "angular2-click-outside/clickOutside.directive";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAGTLTsX1ZW4yT8ScVhm4_EWKqhs42p8qM",
-  authDomain: "weweather-fa9e7.firebaseapp.com",
-  databaseURL: "https://weweather-fa9e7.firebaseio.com",
-  storageBucket: "weweather-fa9e7.appspot.com",
-  messagingSenderId: "154063751993"
+  apiKey: "Your API key",
+  authDomain: "Your Domain",
+  databaseURL: "Your Database url",
+  storageBucket: "Your Storage Bucket",
+  messagingSenderId: "Your Messaging sender id"
 };
 
 @NgModule({
